@@ -16,6 +16,10 @@ class Category(models.Model):
         verbose_name = _('category')
         verbose_name_plural = _('categories')
 
+    def __str__(self):
+        return self.title
+
+
 
 class Product (models.Model):
     title = models.CharField(_('title'),max_length=50)
