@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
+from django.conf import settings
 from utils.validators import validate_phone_number
 
 # Create your models here.
@@ -41,7 +41,12 @@ class Payment(models.Model):
         STATUS_REFOUND: _('This payment has been refunded.'),
     }
 
-    user = models.ForeignKey('user.User', related_name='%(class)s', verbose_name=_('user'),on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='payments',
+        verbose_name=_('user'),
+        on_delete=models.CASCADE
+    )
     package = models.ForeignKey('subscriptions.Package', related_name='%(class)s', verbose_name=_('package'),on_delete=models.CASCADE)
     gateway = models.ForeignKey(Gateway, related_name='%(class)s', verbose_name='gateway', on_delete=models.CASCADE)
     price = models.PositiveIntegerField(_('price'),default=0)
